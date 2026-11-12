@@ -1,0 +1,4 @@
+matplotlib>=3.9
+pandas>=2.0
+pyspark>=3.5
+scikit-learn>=1.3
