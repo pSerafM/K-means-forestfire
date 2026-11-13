@@ -30,6 +30,23 @@ hdfs dfs -put -f .\forestfireinput.csv /user/<usuario>/forestfire/forestfireinpu
 spark-submit --master yarn --deploy-mode client src\main.py --input hdfs:///user/<usuario>/forestfire/forestfireinput.csv --output .\resultados_kmeans
 ```
 
+## Execução local simplificada
+
+Em Linux, o script `run_local.sh` prepara um HDFS de nó único, baixa e valida o
+Hadoop caso ainda não esteja instalado em `~/opt/hadoop-3.5.0`, envia o CSV e
+executa o Spark em modo local. Ele também cria o ambiente virtual e instala as
+dependências Python se necessário:
+
+```bash
+chmod +x run_local.sh
+./run_local.sh
+```
+
+O NameNode só é formatado na primeira execução. Os dados do HDFS ficam em
+`~/.local/share/forestfire-hadoop`; o script mantém os serviços iniciados por
+ele enquanto executa a análise e os encerra ao terminar. Os resultados ficam
+em `resultados_kmeans/`.
+
 O script testa `K` de 2 a 10, incluindo as 11 colunas numéricas (`X`, `Y`,
 `FFMC`, `DMC`, `DC`, `ISI`, `temp`, `RH`, `wind`, `rain` e `area`). As colunas
 categóricas `month` e `day` não entram no K-Means nem nas correlações. O
